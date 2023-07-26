@@ -1,0 +1,21 @@
+module.exports = {
+  username: 'Username',
+  mobileNumber: 'Mobile number',
+  email: 'Email',
+  permission: 'Permission',
+  permissions: 'Permissions',
+  cpassword: 'Password',
+  subAdmin: 'Sub Admin',
+  role: 'Role',
+  roles: 'Roles',
+  croles: 'Roles',
+  cMatchLogs: 'Match logs',
+  cLeagueLogs: 'League logs',
+  feedback: 'Feedback',
+  complain: 'Complain',
+  complaints: 'Complaint',
+  cListBank: 'List of Banks',
+  cAdminlog: 'Admin Logs',
+  cdeviceToken: 'DeviceToken',
+  cotpVerification: 'OTP verification'
+}
