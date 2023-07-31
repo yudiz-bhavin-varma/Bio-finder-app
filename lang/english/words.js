@@ -17,5 +17,7 @@ module.exports = {
   cListBank: 'List of Banks',
   cAdminlog: 'Admin Logs',
   cdeviceToken: 'DeviceToken',
-  cotpVerification: 'OTP verification'
+  cotpVerification: 'OTP verification',
+  cMatchLogs: 'Match logs',
+  occupation:'Occupation'
 }

@@ -2,8 +2,7 @@ const router = require('express').Router()
 const services = require('./services')
 
 
-router.get('/users', services.get)
-router.post('/users/format/data', services.formatAndInsert)
-
+router.get('/occupation',services.get)
+router.post('/occupation/add', services.createOccupation)
 
 module.exports = router

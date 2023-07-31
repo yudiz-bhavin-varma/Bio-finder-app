@@ -1,9 +1,9 @@
 const { status, jsonStatus, messages } = require('../../helper/api.responses')
-const UserModel  = require('../user/model')
-class User {
+const { UserInfoModel } = require('../user-info/model')
+
+class Userinfo {
   async get(req, res) {
     try {
-      let allUsers = await UserModel.find({})
       return res.status(status.OK).jsonp({ status: jsonStatus.OK, message: messages[req.userLanguage].success.replace('##', messages[req.userLanguage].cMatchLogs), data })
     } catch (error) {
       catchError('user.get', error, req, res)
@@ -11,16 +11,16 @@ class User {
   }
 
   async formatAndInsert(req, res) {
-    let users = await UserModel.find({}).limit(1)
-    let finaldataToPush = []
     for (let data of users) {
+      dataToPush = {}
       let { name, age, gender, profile_fields, jobs, residence, hometown } = data.user
-      let occupation = 'Other'
+      console.log(hometown)
+      let occupation = 'other'
       let profileField = []
       for (let record of profile_fields) {
         if (record.name === "Occupation") {
           let profession = record.display_value.toLowerCase()
-          occupation = await assignProfession(profession)
+          occupation = assignProfession(profession)
         }
         profileField.push({
           lableId: record.id,
@@ -63,9 +63,9 @@ function assignProfession(jobDescription) {
   else if (jobDescription.includes("writer")) return "Writer"
   else if (jobDescription.includes("psychologist")) return "Psychologist"
   else if (jobDescription.includes("lawyer")) return "Lawyer"
-  else if (jobDescription.includes("advocate")) return "Lawyer"
+  else if (jobDescription.includes("advocate")) return "Advocate"
   else if (jobDescription.includes("chef")) return "Chef"
-  else if (jobDescription.includes("cook")) return "Chef"
+  else if (jobDescription.includes("cook")) return "Cook"
   else if (jobDescription.includes("ux designer")) return "UX designer"
   else if (jobDescription.includes("physiotherapist")) return "Physiotherapist"
   else if (jobDescription.includes("banker")) return "Banker"
@@ -92,4 +92,4 @@ function assignProfession(jobDescription) {
 
 
 
-module.exports = new User()
+module.exports = new Userinfo()

@@ -6,7 +6,6 @@ const config = require('./config/config')
 const app = express()
 global.appRootPath = __dirname
 
-require('./helper/redis')
 
 require('./database/mongoose')
 
