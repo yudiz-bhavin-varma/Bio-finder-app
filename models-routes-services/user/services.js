@@ -1,5 +1,6 @@
 const { status, jsonStatus, messages } = require('../../helper/api.responses')
 const UserModel  = require('../user/model')
+const UserInfoModel = require('../user-info/model')
 class User {
   async get(req, res) {
     try {
@@ -11,48 +12,56 @@ class User {
   }
 
   async formatAndInsert(req, res) {
-    let users = await UserModel.find({}).limit(1)
+    let users = await UserModel.find({}).sort({_id:-1}).skip(1000*26).limit(10000)
     let finaldataToPush = []
     for (let data of users) {
       let { name, age, gender, profile_fields, jobs, residence, hometown } = data.user
       let occupation = 'Other'
       let profileField = []
       for (let record of profile_fields) {
-        if (record.name === "Occupation") {
+        if (record?.name === "Occupation") {
           let profession = record.display_value.toLowerCase()
           occupation = await assignProfession(profession)
         }
         profileField.push({
-          lableId: record.id,
-          labelName: record.name,
-          displayText: record.display_value.replace(/(\r\n|\n|\r)/gm, "")
+          sLableId: record.id,
+          sLabelName: record.name,
+          sDisplayText: record.display_value.replace(/(\r\n|\n|\r)/gm, "")
         })
       }
       finaldataToPush.push({
-        name,
-        age,
-        gender,
-        residence_city: residence?.city?.name || "",
-        residence_state: residence?.region?.name || "",
-        residence_country: residence?.country?.name || "",
-        home_city: hometown?.city?.name || "",
-        home_state: hometown?.region?.name || "",
-        home_country: hometown?.country?.name || "",
-        occupation,
-        profileField
+        sName:name,
+        nAge:age,
+        sGender:gender,
+        sResidenceCity: residence?.city?.name || "",
+        sResidenceState: residence?.region?.name || "",
+        sResidenceCountry: residence?.country?.name || "",
+        sHomeCity: hometown?.city?.name || "",
+        sHomeState: hometown?.region?.name || "",
+        sHomeCountry: hometown?.country?.name || "",
+        sOccupation:occupation,
+        aProfileFields:profileField,
+        iUserId:data._id
       })
     }
+    await UserInfoModel.insertMany(finaldataToPush)
+    res.send({})
   }
 }
 
 function assignProfession(jobDescription) {
   if (jobDescription.includes("doctor")) return "Doctor"
+  else if (jobDescription.includes("surgeon")) return "Doctor"
+  else if (jobDescription.includes("qa")) return "QA"
   else if (jobDescription.includes("musician")) return "Musician"
+  else if (jobDescription.includes("analytics")) return "Analyst"
+  else if (jobDescription.includes("athlete")) return "Athlete"
   else if (jobDescription.includes("fashion designer")) return "Fashion Designer"
   else if (jobDescription.includes("photographer")) return "Photographer"
-  else if (jobDescription.includes("enginner")) return "Enginner"
+  else if (jobDescription.includes("engineer")) return "Enginner"
   else if (jobDescription.includes("manager")) return "Manager"
   else if (jobDescription.includes("consultant")) return "Consultant"
+  else if (jobDescription.includes("professor")) return "Professor"  
   else if (jobDescription.includes("analyst")) return "Analyst"
   else if (jobDescription.includes("hr")) return "HR"
   else if (jobDescription.includes("researcher")) return "Researcher"

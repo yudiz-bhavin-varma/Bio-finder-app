@@ -7,18 +7,19 @@ const Userinfo = new Schema({
   sName: { type: String, trim: true, required: true },
   nAge: { type: Number, trim: true, required: true },
   sGender: { type: String, trim: true, required: true },
-  residenceCity: { type: String, trim: true, required: true },
-  residenceState: { type: String, trim: true, required: true },
-  residenceCountry:{ type: String, trim: true, required: true },
-  homeCity:{ type: String, trim: true, required: true },
-  homeState:{ type: String, trim: true, required: true },
-  homeCountry:{ type: String, trim: true, required: true },
-  sOccupation: { type: String, trim: true, required: true },
-  profileFields:[{
-    lableId:{ type: String, trim: true, required: true },
-    labelName:{ type: String, trim: true, required: true },
-    displayText:{ type: String, trim: true, required: true },
-  }]
+  sResidenceCity: { type: String, trim: true },
+  sResidenceState: { type: String, trim: true },
+  sResidenceCountry:{ type: String, trim: true },
+  sHomeCity:{ type: String, trim: true },
+  sHomeState:{ type: String, trim: true },
+  sHomeCountry:{ type: String, trim: true },
+  sOccupation: { type: String, trim: true },
+  aProfileFields:[{
+    sLableId:{ type: String, trim: true },
+    sLabelName:{ type: String, trim: true },
+    sDisplayText:{ type: String, trim: true },
+  }],
+  iUserId: { type:mongoose.Types.ObjectId,unique:true }
 }, { timestamps: { createdAt: 'dCreatedAt', updatedAt: 'dUpdatedAt' } })
 
 

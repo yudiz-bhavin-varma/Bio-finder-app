@@ -18,7 +18,7 @@ class Userinfo {
       let occupation = 'other'
       let profileField = []
       for (let record of profile_fields) {
-        if (record.name === "Occupation") {
+        if (record?.name === "Occupation") {
           let profession = record.display_value.toLowerCase()
           occupation = assignProfession(profession)
         }
@@ -29,17 +29,17 @@ class Userinfo {
         })
       }
       finaldataToPush.push({
-        name,
-        age,
-        gender,
-        residence_city: residence?.city?.name || "",
-        residence_state: residence?.region?.name || "",
-        residence_country: residence?.country?.name || "",
-        home_city: hometown?.city?.name || "",
-        home_state: hometown?.region?.name || "",
-        home_country: hometown?.country?.name || "",
-        occupation,
-        profileField
+        sName:name,
+        nAge:age,
+        sGender:gender,
+        sResidenceCity: residence?.city?.name || "",
+        sResidenceState: residence?.region?.name || "",
+        sResidenceCountry: residence?.country?.name || "",
+        sHomeCity: hometown?.city?.name || "",
+        sHomeState: hometown?.region?.name || "",
+        sHomeCountry: hometown?.country?.name || "",
+        sOccupation:occupation,
+        aProfileFields:profileField
       })
     }
   }

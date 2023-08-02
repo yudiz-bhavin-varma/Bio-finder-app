@@ -29,20 +29,19 @@ const User = new Schema({
       phone_prefix:{},
       iso_code:{},
       flag_symbol:{},
-      region:{
-        $gpb:{ type: String, trim: true },
-        id:{ type: Number, trim: true },
-        name:{ type: String, trim: true },
-        abbreviation:{ type: String, trim: true },
-      },
-      city : {
+    },
+    region:{
+      $gpb:{ type: String, trim: true },
+      id:{ type: Number, trim: true },
+      name:{ type: String, trim: true },
+      abbreviation:{ type: String, trim: true },
+    },
+    city : {
         $gpb:{ type: String, trim: true },
         id:{ type: Number, trim: true },
         name:{ type: String, trim: true },
 				context_info :{ type: String, trim: true },
-			},
-
-    }
+			}
   },
   hometown:{
     $gpb:{ type: String, trim: true },
@@ -54,20 +53,19 @@ const User = new Schema({
       phone_prefix:{},
       iso_code:{},
       flag_symbol:{},
-      region:{
-        $gpb:{ type: String, trim: true },
-        id:{ type: Number, trim: true },
-        name:{ type: String, trim: true },
-        abbreviation:{ type: String, trim: true },
-      },
-      city : {
+    },
+    region:{
+      $gpb:{ type: String, trim: true },
+      id:{ type: Number, trim: true },
+      name:{ type: String, trim: true },
+      abbreviation:{ type: String, trim: true },
+    },
+    city : {
         $gpb:{ type: String, trim: true },
         id:{ type: Number, trim: true },
         name:{ type: String, trim: true },
 				context_info :{ type: String, trim: true },
-			},
-
-    }
+			}
   },
   sName: { type: String, trim: true, required: true },
   nAge: { type: Number, trim: true, required: true },
@@ -84,7 +82,7 @@ const User = new Schema({
     labelName:{ type: String, trim: true, required: true },
     displayText:{ type: String, trim: true, required: true },
   }]
-}
+  }
 }, { timestamps: { createdAt: 'dCreatedAt', updatedAt: 'dUpdatedAt' } })
 
 

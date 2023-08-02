@@ -1,18 +1,18 @@
 const { status, jsonStatus, messages } = require('../../helper/api.responses')
 const occupationModel = require('../occupation/model')
-const { catchError } = require('../../helper/utilities.services')
+const { catchError,pick } = require('../../helper/utilities.services')
 class Occupation {
-  
-  async get(req, res) {
+
+  async getOccupation(req, res) {
     try {
       const { size, sort, orderBy, pageNumber } = pick(req.query, ['size', 'sort', 'orderBy', 'pageNumber'])
       const oSort = {}
       if (!sort) oSort.dCreatedDate = -1
       if (sort) oSort[sort] = orderBy === 'DESC' ? -1 : 1
       const skip = parseInt(pageNumber - 1 || 0) * parseInt(size || 20)
-      const limit = parseInt(size || 20)
+      const limit = parseInt(size || 10)
       const occupation = await occupationModel.find({ eStatus: 'Y' }).sort(oSort).skip(skip).limit(limit).lean()
-      return res.status(status.OK).json({ status: jsonStatus.OK, message: messages[req.userLanguage].success.replace('##', messages[req.userLanguage].occupation)},{occupation})
+      return res.status(status.OK).json({ status: jsonStatus.OK, message: messages[req.userLanguage].success.replace('##', messages[req.userLanguage].occupation),data:occupation})
     } catch (error) {
       catchError('occupation.get', error, req, res)
     }
