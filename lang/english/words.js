@@ -19,5 +19,6 @@ module.exports = {
   cdeviceToken: 'DeviceToken',
   cotpVerification: 'OTP verification',
   cMatchLogs: 'Match logs',
-  occupation:'Occupation'
+  occupation:'Occupation',
+  category:'Category'
 }

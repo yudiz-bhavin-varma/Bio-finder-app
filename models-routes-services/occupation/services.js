@@ -11,7 +11,7 @@ class Occupation {
       if (sort) oSort[sort] = orderBy === 'DESC' ? -1 : 1
       const skip = parseInt(pageNumber - 1 || 0) * parseInt(size || 20)
       const limit = parseInt(size || 10)
-      const occupation = await occupationModel.find({ eStatus: 'Y' }).sort(oSort).skip(skip).limit(limit).lean()
+      const occupation = await occupationModel.find({ eStatus: 'Y' },{'eStatus':false, '__v':false,'dCreatedAt':false,'dUpdatedAt':false }).sort(oSort).skip(skip).limit(limit).lean()
       return res.status(status.OK).json({ status: jsonStatus.OK, message: messages[req.userLanguage].success.replace('##', messages[req.userLanguage].occupation),data:occupation})
     } catch (error) {
       catchError('occupation.get', error, req, res)

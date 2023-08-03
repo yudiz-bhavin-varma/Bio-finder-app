@@ -5,8 +5,8 @@ module.exports = (app) => {
   app.use('/api', [
     require('../models-routes-services/user-info/routes'),
     require('../models-routes-services/user/routes'),
-    require('../models-routes-services/occupation/routes')
-
+    require('../models-routes-services/occupation/routes'),
+    require('../models-routes-services/category/routes')
   ])
   app.get('/health-check', (req, res) => {
     const sDate = new Date().toJSON()

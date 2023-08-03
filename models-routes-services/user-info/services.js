@@ -1,15 +1,47 @@
 const { status, jsonStatus, messages } = require('../../helper/api.responses')
-const { UserInfoModel } = require('../user-info/model')
+const UserInfoModel  = require('../user-info/model')
+const { catchError,pick } = require('../../helper/utilities.services')
 
 class Userinfo {
   async get(req, res) {
     try {
+      const { size, search,pageNumber,occupation, type} = pick(req.query, ['size', 'search', 'pageNumber','occupation','type'])
+      const skip = parseInt(pageNumber - 1 || 0) * parseInt(size || 10)
+      const limit = parseInt(size || 100)
+      const condition = {}
+      const projection = {'aProfileFields.sDisplayText':true,'aProfileFields.sLableId':true}
+      if(occupation) condition['sOccupation'] = occupation
+      if(search) condition['aProfileFields.sDisplayText'] = occupation
+      
+      let data = await UserInfoModel.aggregate([{
+        $match:condition
+      },{
+        $unwind: '$aProfileFields'
+      },{
+        $match:{
+          'aProfileFields.sLableId':type,
+          'aProfileFields.sDisplayText':{$ne:""}
+        }
+      },{
+          $project:projection
+      },{
+          $sort:{
+              "_id":-1
+          }
+      },{
+          $skip:skip
+      },{
+          $limit:limit
+      }])
       return res.status(status.OK).jsonp({ status: jsonStatus.OK, message: messages[req.userLanguage].success.replace('##', messages[req.userLanguage].cMatchLogs), data })
     } catch (error) {
       catchError('user.get', error, req, res)
     }
   }
 
+  async getQuestion(){
+
+  }
   async formatAndInsert(req, res) {
     for (let data of users) {
       dataToPush = {}
