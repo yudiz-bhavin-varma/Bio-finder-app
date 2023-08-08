@@ -7,7 +7,7 @@ class Occupation {
     try {
       const { size, sort, orderBy, pageNumber } = pick(req.query, ['size', 'sort', 'orderBy', 'pageNumber'])
       const oSort = {}
-      if (!sort) oSort.dCreatedDate = -1
+      if (!sort) oSort.bTopRated = 1
       if (sort) oSort[sort] = orderBy === 'DESC' ? -1 : 1
       const skip = parseInt(pageNumber - 1 || 0) * parseInt(size || 20)
       const limit = parseInt(size || 10)
