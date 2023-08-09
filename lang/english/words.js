@@ -9,7 +9,7 @@ module.exports = {
   role: 'Role',
   roles: 'Roles',
   croles: 'Roles',
-  cMatchLogs: 'Match logs',
+  userinfo: 'User info',
   cLeagueLogs: 'League logs',
   feedback: 'Feedback',
   complain: 'Complain',
@@ -18,7 +18,7 @@ module.exports = {
   cAdminlog: 'Admin Logs',
   cdeviceToken: 'DeviceToken',
   cotpVerification: 'OTP verification',
-  cMatchLogs: 'Match logs',
   occupation:'Occupation',
-  category:'Category'
+  category:'Category',
+  randomDetails:'Random Details'
 }

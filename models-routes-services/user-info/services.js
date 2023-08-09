@@ -1,5 +1,7 @@
 const { status, jsonStatus, messages } = require('../../helper/api.responses')
 const UserInfoModel  = require('../user-info/model')
+const CategoryModel = require('../category/model')
+
 const { catchError,pick } = require('../../helper/utilities.services')
 
 class Userinfo {
@@ -39,9 +41,42 @@ class Userinfo {
     }
   }
 
-  async getQuestion(){
-
+  async getDetails(req, res) {
+    try {
+      let data = await UserInfoModel.findOne({"_id": req.params.id },{"dCreatedAt": false, "dUpdatedAt":false, "eProvider":false,"iUserId":false,"__v":false })
+      return res.status(status.OK).jsonp({ status: jsonStatus.OK, message: messages[req.userLanguage].success.replace('##', messages[req.userLanguage].userinfo), data })
+    } catch (error) {
+      catchError('user.get', error, req, res)
+    }
   }
+
+  async getRandomDetails(req,res){
+    try {
+      let category = await CategoryModel.aggregate([{$match:{"bTopRated":true}},{$sample: { size: 1 }}])
+      let data = await UserInfoModel.aggregate([{
+        $unwind: '$aProfileFields'
+      },{
+        $match:{
+          'aProfileFields.sLableId':category[0].categoryValue,
+          'aProfileFields.sDisplayText':{$ne:""}
+        }
+      },
+      {
+          $project:{
+            aProfileFields:true
+          }
+      },{
+          $sample:{
+              size: 1
+          }
+      }])
+
+      return res.status(status.OK).jsonp({ status: jsonStatus.OK, message: messages[req.userLanguage].success.replace('##', messages[req.userLanguage].randomDetails), data })
+    } catch (error) {
+      catchError('user.get', error, req, res)
+    }
+  }
+
   async formatAndInsert(req, res) {
     for (let data of users) {
       dataToPush = {}
