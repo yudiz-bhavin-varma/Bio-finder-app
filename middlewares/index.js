@@ -21,7 +21,15 @@ module.exports = (app) => {
 
   // app.use(morgan('dev'))
 
-  app.use(cors())
+  const corsConfig = {
+    origin: '',
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE']
+  }
+
+  app.use(cors(corsConfig))
+  app.options("", cors(corsConfig))
+
   app.use(helmet())
   app.disable('x-powered-by')
   app.use(bodyParser.json())
