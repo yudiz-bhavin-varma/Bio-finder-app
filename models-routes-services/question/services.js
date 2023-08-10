@@ -2,7 +2,7 @@ const { status, jsonStatus, messages } = require('../../helper/api.responses')
 const QuestionModel  = require('./model')
 const {catchError,pick} = require('../../helper/utilities.services')
 
-class categoryInfo {
+class questionInfo {
   async get(req, res) {
     try {
       const { size, search, pageNumber} = pick(req.query, ['size', 'search', 'pageNumber'])
@@ -10,14 +10,14 @@ class categoryInfo {
       const limit = parseInt(size || 10)
       const condition = {'show':true }
       const projection = {'show':false}
-      let [category,total] = await Promise.all([
+      let [question,total] = await Promise.all([
         QuestionModel.find(condition,projection).sort({"bTopRated": 1 }).skip(skip).limit(limit),
         QuestionModel.countDocuments(condition,projection)
       ])      
-      return res.status(status.OK).jsonp({ status: jsonStatus.OK, message: messages[req.userLanguage].success.replace('##', messages[req.userLanguage].category), data:{category,total} })
+      return res.status(status.OK).jsonp({ status: jsonStatus.OK, message: messages[req.userLanguage].success.replace('##', messages[req.userLanguage].question), data:{question,total} })
     } catch (error) {
-      catchError('categoryInfo.get', error, req, res)
+      catchError('questionInfo.get', error, req, res)
     }
   }
 }
-module.exports = new categoryInfo()
+module.exports = new questionInfo()

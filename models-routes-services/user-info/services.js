@@ -35,7 +35,7 @@ class Userinfo {
       },{
           $limit:limit
       }])
-      return res.status(status.OK).jsonp({ status: jsonStatus.OK, message: messages[req.userLanguage].success.replace('##', messages[req.userLanguage].cMatchLogs), data })
+      return res.status(status.OK).jsonp({ status: jsonStatus.OK, message: messages[req.userLanguage].success.replace('##', messages[req.userLanguage].userinfo), data })
     } catch (error) {
       catchError('user.get', error, req, res)
     }
