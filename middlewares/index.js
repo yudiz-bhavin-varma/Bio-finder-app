@@ -3,7 +3,6 @@ const mongoose = require('mongoose')
 const path = require('path')
 const bodyParser = require('body-parser')
 const cors = require('cors')
-const cachegoose = require('recachegoose')
 const helmet = require('helmet')
 const compression = require('compression')
 const hpp = require('hpp')
@@ -11,13 +10,6 @@ const hpp = require('hpp')
 const config = require('../config/config')
 
 module.exports = (app) => {
-  
-  cachegoose(mongoose, {
-    engine: 'redis',
-    host: config.REDIS_HOST,
-    port: config.REDIS_PORT,
-    password: config.REDIS_PASSWORD
-  })
 
   // app.use(morgan('dev'))
 
