@@ -1,6 +1,6 @@
 const { status, jsonStatus, messages } = require('../../helper/api.responses')
 const UserInfoModel  = require('../user-info/model')
-const CategoryModel = require('../category/model')
+const QuestionModel = require('../question/model')
 
 const { catchError,pick } = require('../../helper/utilities.services')
 
@@ -52,7 +52,7 @@ class Userinfo {
 
   async getRandomDetails(req,res){
     try {
-      let category = await CategoryModel.aggregate([{$match:{"bTopRated":true}},{$sample: { size: 1 }}])
+      let category = await QuestionModel.aggregate([{$match:{"bTopRated":true}},{$sample: { size: 1 }}])
       let data = await UserInfoModel.aggregate([{
         $unwind: '$aProfileFields'
       },{

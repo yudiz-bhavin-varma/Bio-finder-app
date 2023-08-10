@@ -1,5 +1,5 @@
 const { status, jsonStatus, messages } = require('../../helper/api.responses')
-const CategoryModel  = require('./model')
+const QuestionModel  = require('./model')
 const {catchError,pick} = require('../../helper/utilities.services')
 
 class categoryInfo {
@@ -11,8 +11,8 @@ class categoryInfo {
       const condition = {'show':true }
       const projection = {'show':false}
       let [category,total] = await Promise.all([
-        CategoryModel.find(condition,projection).sort({"bTopRated": 1 }).skip(skip).limit(limit),
-        CategoryModel.countDocuments(condition,projection)
+        QuestionModel.find(condition,projection).sort({"bTopRated": 1 }).skip(skip).limit(limit),
+        QuestionModel.countDocuments(condition,projection)
       ])      
       return res.status(status.OK).jsonp({ status: jsonStatus.OK, message: messages[req.userLanguage].success.replace('##', messages[req.userLanguage].category), data:{category,total} })
     } catch (error) {
