@@ -11,7 +11,7 @@ class Userinfo {
       const skip = parseInt(pageNumber - 1 || 0) * parseInt(size || 10)
       const limit = parseInt(size || 100)
       const condition = {}
-      const projection = {'aProfileFields.sDisplayText':true,'aProfileFields.sLableId':true}
+      const projection = {'aProfileFields.sDisplayText':true,'aProfileFields.sLableId':true,'nAge':true,'sResidenceCity':true,'sGender':true,'sResidenceState':true,'sResidenceCountry':true,'sHomeCity':true,'sHomeState':true,'sHomeCountry':true ,'sOccupation':true}
       if(occupation) condition['sOccupation'] = occupation
       if(search) condition['aProfileFields.sDisplayText'] = occupation
       
