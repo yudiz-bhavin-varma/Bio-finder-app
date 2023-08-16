@@ -20,5 +20,6 @@ module.exports = {
   cotpVerification: 'OTP verification',
   occupation:'Occupation',
   question:'Question',
-  randomDetails:'Random Details'
+  randomDetails:'Random Details',
+  questionAns:'Question Answer'
 }
