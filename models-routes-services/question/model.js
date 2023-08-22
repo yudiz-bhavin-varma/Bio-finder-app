@@ -5,8 +5,10 @@ const Schema = mongoose.Schema
 
 const Question = new Schema({
   text: { type: String, trim: true, required: true },
+  slug: { type: String, trim: true, required: true },
   show: { type: Boolean, trim: true, required: true },
   categoryValue: { type: String, trim: true, required: true },
+  bTopRated:{ type: Boolean, trim: true, required: true }
 }, { timestamps: { createdAt: 'dCreatedAt', updatedAt: 'dUpdatedAt' } })
 
 

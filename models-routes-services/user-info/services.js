@@ -8,14 +8,18 @@ class Userinfo {
   async get(req, res) {
     try {
       const { size, search,pageNumber,occupation, type} = pick(req.query, ['size', 'search', 'pageNumber','occupation','type'])
-      const skip = parseInt(pageNumber - 1 || 0) * parseInt(size || 10)
+      const skip = parseInt(pageNumber - 1 || 0) * parseInt(size || 100)
       const limit = parseInt(size || 100)
       const condition = {}
       const projection = {'aProfileFields.sDisplayText':true,'aProfileFields.sLableId':true,'nAge':true,'sResidenceCity':true,'sGender':true,'sResidenceState':true,'sResidenceCountry':true,'sHomeCity':true,'sHomeState':true,'sHomeCountry':true ,'sOccupation':true}
       if(occupation) condition['sOccupation'] = occupation
       if(search) condition['aProfileFields.sDisplayText'] = occupation
       
-      let data = await UserInfoModel.aggregate([{
+      let data = {question:{},ans:[]}
+      let question = await QuestionModel.findOne({"categoryValue":type},{"text":true}).lean()
+      data.question = question
+      if(question){
+      let ans = await UserInfoModel.aggregate([{
         $match:condition
       },{
         $unwind: '$aProfileFields'
@@ -35,6 +39,8 @@ class Userinfo {
       },{
           $limit:limit
       }])
+      data.ans = ans
+      }
       return res.status(status.OK).jsonp({ status: jsonStatus.OK, message: messages[req.userLanguage].success.replace('##', messages[req.userLanguage].userinfo), data })
     } catch (error) {
       catchError('user.get', error, req, res)
