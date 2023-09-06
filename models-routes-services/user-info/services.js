@@ -13,7 +13,7 @@ class Userinfo {
       const condition = {}
       const projection = {'aProfileFields.sDisplayText':true,'aProfileFields.sLableId':true,'nAge':true,'sResidenceCity':true,'sGender':true,'sResidenceState':true,'sResidenceCountry':true,'sHomeCity':true,'sHomeState':true,'sHomeCountry':true ,'sOccupation':true}
       if(occupation) condition['sOccupation'] = occupation
-      if(search) condition['aProfileFields.sDisplayText'] = occupation
+      if(search) condition['aProfileFields.sDisplayText'] = { $regex: new RegExp('^.*' + search + '.*', 'i') }
       
       let data = {question:{},ans:[]}
       let question = await QuestionModel.findOne({"categoryValue":type},{"text":true}).lean()
