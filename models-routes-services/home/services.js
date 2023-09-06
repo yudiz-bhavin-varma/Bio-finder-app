@@ -8,14 +8,19 @@ class Home {
   //need to optimize this route, create proper flow for this.
   async get(req, res) {
     try {
-      const { size, sort, orderBy, pageNumber } = pick(req.query, ['size', 'sort', 'orderBy', 'pageNumber'])
+      const { size, sort, orderBy, pageNumber,search } = pick(req.query, ['size', 'sort', 'orderBy', 'pageNumber','search'])
       const oSort = {}
       if (!sort) oSort.bTopRated = 1
       if (sort) oSort[sort] = orderBy === 'DESC' ? -1 : 1
       const skip = parseInt(pageNumber - 1 || 0) * parseInt(size || 5)
       const limit = parseInt(size || 5)
       let ans = []
-      const questions = await questionModel.find({ show: true, bTopRated:true },{'eStatus':false, '__v':false,'dCreatedAt':false,'dUpdatedAt':false }).sort(oSort).skip(skip).limit(limit).lean()
+      let matchObj = { show: true, bTopRated:true }
+      if(search) {
+        delete matchObj.bTopRated
+        matchObj.text = { $regex: new RegExp('^.*' + search + '.*', 'i') }
+      }
+      const questions = await questionModel.find(matchObj,{'eStatus':false, '__v':false,'dCreatedAt':false,'dUpdatedAt':false }).sort(oSort).skip(skip).limit(limit).lean()
       if(questions.length){
         let categoryValues = questions.map((data) => data.categoryValue)
         ans = await userInfoModel.aggregate([{

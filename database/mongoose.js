@@ -3,7 +3,7 @@ const { handleCatchError } = require('../helper/utilities.services')
 
 const config = require('../config/config')
 
-const UsersDBConnect = connection(config.DB_URL, 'Users')
+const UsersDBConnect = connection(config.DB_URL, 'Bio-finder')
 
 function connection(DB_URL, DB) {
   try {
