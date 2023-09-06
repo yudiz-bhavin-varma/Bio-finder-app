@@ -3,8 +3,7 @@ const config = require('../config/config')
 const { handleCatchError } = require('./utilities.services')
 const sanitizeHtml = require('sanitize-html')
 
-console.log("config")
-console.log(config)
+
 const redisClient = new Redis({
   host: config.REDIS_HOST,
   port: config.REDIS_PORT,

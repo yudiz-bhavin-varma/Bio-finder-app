@@ -12,7 +12,7 @@ class Home {
       const oSort = {}
       if (!sort) oSort.bTopRated = 1
       if (sort) oSort[sort] = orderBy === 'DESC' ? -1 : 1
-      const skip = parseInt(pageNumber - 1 || 0) * parseInt(size || 20)
+      const skip = parseInt(pageNumber - 1 || 0) * parseInt(size || 5)
       const limit = parseInt(size || 5)
       let ans = []
       const questions = await questionModel.find({ show: true, bTopRated:true },{'eStatus':false, '__v':false,'dCreatedAt':false,'dUpdatedAt':false }).sort(oSort).skip(skip).limit(limit).lean()
@@ -32,6 +32,13 @@ class Home {
                   $push:'$aProfileFields.sDisplayText'
               }
           }
+        },{
+            $project:{
+                "_id": 1, 
+                value: { 
+                    $slice: [ "$value", 5 ] 
+                  } 
+            }
         }])
       } 
       return res.status(status.OK).json({ status: jsonStatus.OK, message: messages[req.userLanguage].success.replace('##', messages[req.userLanguage].questionAns),data:{questions,ans}})

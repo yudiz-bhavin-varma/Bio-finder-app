@@ -3,6 +3,7 @@ const mongoose = require('mongoose')
 const { UsersDBConnect } = require('../../database/mongoose')
 const Schema = mongoose.Schema
 
+// question change naming convention like sText as per the type in v2 version of api
 const Question = new Schema({
   text: { type: String, trim: true, required: true },
   slug: { type: String, trim: true, required: true },

@@ -3,6 +3,7 @@ const mongoose = require('mongoose')
 const { UsersDBConnect } = require('../../database/mongoose')
 const Schema = mongoose.Schema
 
+// change naming convention like sText as per the type in v2 version of api
 const User = new Schema({
   user:{
   user_id : { type: String, trim: true, required: true },

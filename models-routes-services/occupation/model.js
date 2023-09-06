@@ -4,7 +4,6 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 const { status } = require('../../data')
 
-
 const occupation = new Schema({
   sName: { type: String, trim: true, required: true, unique:true },
   eStatus:{type: String, enum:status }
