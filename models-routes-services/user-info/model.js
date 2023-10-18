@@ -2,6 +2,7 @@
 const mongoose = require('mongoose')
 const { UsersDBConnect } = require('../../database/mongoose')
 const Schema = mongoose.Schema
+const data  = require('../../data')
 
 // change naming convention like sText as per the type in v2 version of api
 const Userinfo = new Schema({
@@ -20,6 +21,7 @@ const Userinfo = new Schema({
     sLabelName:{ type: String, trim: true },
     sDisplayText:{ type: String, trim: true },
   }],
+  eProvider: { type: String, enum: data.provider, default: 'B', required: true },
   iUserId: { type:mongoose.Types.ObjectId,unique:true }
 }, { timestamps: { createdAt: 'dCreatedAt', updatedAt: 'dUpdatedAt' } })
 

@@ -2,13 +2,14 @@
 const mongoose = require('mongoose')
 const { UsersDBConnect } = require('../../database/mongoose')
 const Schema = mongoose.Schema
-
+const data  = require('../../data')
 // question change naming convention like sText as per the type in v2 version of api
 const Question = new Schema({
   text: { type: String, trim: true, required: true },
   slug: { type: String, trim: true, required: true },
   show: { type: Boolean, trim: true, required: true },
   categoryValue: { type: String, trim: true, required: true },
+  eProvider: { type: String, enum: data.provider, default: 'B', required: true },
   bTopRated:{ type: Boolean, trim: true, required: true }
 }, { timestamps: { createdAt: 'dCreatedAt', updatedAt: 'dUpdatedAt' } })
 

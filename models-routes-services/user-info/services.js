@@ -7,16 +7,25 @@ const { catchError,pick } = require('../../helper/utilities.services')
 class Userinfo {
   async get(req, res) {
     try {
-      const { size, search,pageNumber,occupation, type} = pick(req.query, ['size', 'search', 'pageNumber','occupation','type'])
+      const { size, search,pageNumber,occupation, type, platformType} = pick(req.query, ['size', 'search', 'pageNumber','occupation','type','platformType'])
       const skip = parseInt(pageNumber - 1 || 0) * parseInt(size || 100)
       const limit = parseInt(size || 100)
-      const condition = {}
+      const condition = {
+        'eProvider':'B'
+      }
       const projection = {'aProfileFields.sDisplayText':true,'aProfileFields.sLableId':true,'nAge':true,'sResidenceCity':true,'sGender':true,'sResidenceState':true,'sResidenceCountry':true,'sHomeCity':true,'sHomeState':true,'sHomeCountry':true ,'sOccupation':true}
       if(occupation) condition['sOccupation'] = occupation
       if(search) condition['aProfileFields.sDisplayText'] = { $regex: new RegExp('^.*' + search + '.*', 'i') }
-      
+      const questionCondition = {
+        "categoryValue":type,
+        "eProvider":'B'
+      }
+      if(platformType) {
+        condition['eProvider'] = platformType
+        questionCondition['eProvider'] = platformType
+      }
       let data = {question:{},ans:[]}
-      let question = await QuestionModel.findOne({"categoryValue":type},{"text":true}).lean()
+      let question = await QuestionModel.findOne(questionCondition,{"text":true}).lean()
       data.question = question
       if(question){
       let ans = await UserInfoModel.aggregate([{
